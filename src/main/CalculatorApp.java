@@ -1,6 +1,7 @@
 /*
  * Birddie721 2023
  * Full source code available on github: https://github.com/Birddie721/WarhammerFantasyCalculator
+ * V0.1
  */
 
 package main;
@@ -66,6 +67,7 @@ public class CalculatorApp extends Application {
         armies.add("Wood Elves");
 
         TextField pointsField = new TextField();
+        TextField unitWidthField = new TextField();
         ComboBox<String> attackingArmyDropdown = new ComboBox<>();
         ComboBox<String> defendingArmyDropdown = new ComboBox<>();
         ComboBox<String> attackingUnitDropdown = new ComboBox<>();
@@ -81,6 +83,8 @@ public class CalculatorApp extends Application {
         root.getChildren().addAll(
             new Label("Enter Points Value:"),
             pointsField,
+            new Label("Enter Width for Units:"),
+            unitWidthField,
             new Label("Select Charging Army:"),
             attackingArmyDropdown,
             new Label("Select Charging Unit:"),
@@ -99,7 +103,7 @@ public class CalculatorApp extends Application {
             outcomeLabel
         );
 
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 700, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
         
@@ -108,6 +112,7 @@ public class CalculatorApp extends Application {
         
         //pointsField.setText("500");
         //numSimulationsField.setText("500");
+        unitWidthField.setText("5");
         
         
         attackingArmyDropdown.setOnAction(event -> {
@@ -137,6 +142,11 @@ public class CalculatorApp extends Application {
         
         simulateButton.setOnAction(event -> {
         	try {
+        		int rankWidth = Integer.parseInt(unitWidthField.getText());
+        		if(rankWidth<5) {
+        			rankWidth=5;
+        			unitWidthField.setText("5");
+        		}
         		Unit attacker = null;
         		Unit defender = null;
         		int points = Integer.parseInt(pointsField.getText());
@@ -151,6 +161,8 @@ public class CalculatorApp extends Application {
                     attacker.setWeaponCostIndex(attackingEquipmentDropdown.getSelectionModel().getSelectedIndex());
                     defender.setWeapon(createWeaponFromSelected(defendingEquipmentDropdown.getValue()));
                     defender.setWeaponCostIndex(defendingEquipmentDropdown.getSelectionModel().getSelectedIndex());
+                    attacker.setRankWidth(rankWidth);
+            		defender.setRankWidth(rankWidth);
         			BattleSimulator combatSimulator = new BattleSimulator();
                     win = combatSimulator.simulate(attacker, defender, points);
                     if(win==1) {

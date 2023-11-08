@@ -503,6 +503,9 @@ public class BattleSimulator {
 		if(attacker.isFrenzy()) {
 			attacksPerModel++;
 		}
+		if(attacker.getRankWidth()>=10) {
+			attackInRanks++;
+		}
 		if(attacker.getUnits() < 5) {
 			return (attacker.getUnits() * attacksPerModel);
 		}else if(fullRanks < 2) {
@@ -513,33 +516,46 @@ public class BattleSimulator {
 			attacks = (attacksPerModel * attacker.getRankWidth());
 			attacks += (attacker.getRankWidth());
 			return attacks;
-		}else {
-			if(attackInRanks == 3) {
-				if(fullRanks < 3) {
-					attacks = (attacksPerModel * attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getUnits() - (2 * attacker.getRankWidth()));
-					return attacks;
-				}else {
-					attacks = (attacksPerModel * attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					return attacks;
-				}
+		}else if(attackInRanks == 3) {
+			if(fullRanks < 3) {
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getUnits() - (2 * attacker.getRankWidth()));
+				return attacks;
 			}else {
-				if(fullRanks < 4) {
-					attacks = (attacksPerModel * attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getUnits() - (3 * attacker.getRankWidth()));
-					return attacks;
-				}else {
-					attacks = (attacksPerModel * attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					attacks += (attacker.getRankWidth());
-					return attacks;
-				}
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				return attacks;
+			}
+		}else if(attackInRanks == 4){
+			if(fullRanks < 4) {
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getUnits() - (3 * attacker.getRankWidth()));
+				return attacks;
+			}else {
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				return attacks;
+			}
+		}else {
+			if(fullRanks < 5) {
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getUnits() - (4 * attacker.getRankWidth()));
+				return attacks;
+			}else {
+				attacks = (attacksPerModel * attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				attacks += (attacker.getRankWidth());
+				return attacks;
 			}
 		}
 	}
